@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ARNI University | Student Login</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#004d40,#002d26);
+    font-family:Segoe UI,Arial;
+}
+.login-card{
+    background:#fff;
+    width:360px;
+    padding:40px;
+    border-radius:15px;
+    text-align:center;
+    box-shadow:0 15px 30px rgba(0,0,0,.3);
+    border-top:6px solid #ffc107;
+}
+.login-card input{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border:1px solid #ccc;
+    border-radius:6px;
+    box-sizing: border-box;
+}
+button{
+    width:100%;
+    padding:13px;
+    background:#004d40;
+    color:#fff;
+    border:none;
+    border-radius:6px;
+    font-weight:600;
+    cursor:pointer;
+    margin-top:10px;
+}
+</style>
+</head>
+<body>
+
+<div class="login-card">
+    <img src="https://i.ibb.co/V0nT8RJN/arni-new-logo.png" width="80">
+    <h2>ARNI UNIVERSITY</h2>
+    <p style="font-size:11px;color:#666;">AccSoft Student ERP</p>
+
+    <input id="stuID" placeholder="Enrollment No">
+    
+    <input type="date" id="stuDOB" onfocus="this.showPicker && this.showPicker()">
+    
+    <input id="stuPass" type="password" placeholder="Password">
+
+    <button type="button" onclick="login()">SIGN IN</button>
+</div>
+
+<script>
+// Student Database for Authentication
+const students = [
+ {id:"AN11CE3408", dob:"25/01/1988", pass:"SAKETAN11"},
+ {id:"AN21CE87654", dob:"11/10/2001", pass:"Sonu@01"}
+];
+
+function login(){
+    const id = document.getElementById('stuID').value.trim();
+    const dobInput = document.getElementById('stuDOB').value;
+    const pass = document.getElementById('stuPass').value.trim();
+
+    if (!id || !dobInput || !pass) {
+        alert("Please fill all details");
+        return;
+    }
+
+    // Convert Date Picker (YYYY-MM-DD) to Dashboard format (DD/MM/YYYY)
+    const [y, m, d] = dobInput.split("-");
+    const formattedDOB = `${d}/${m}/${y}`;
+
+    const user = students.find(s => s.id === id && s.dob === formattedDOB && s.pass === pass);
+
+    if(user){
+        // Save Enrollment ID so Dashboard can fetch full data
+        localStorage.setItem("userEnroll", id); 
+        window.location.href = "dashboard.html";
+    } else {
+        alert("Invalid Enrollment No, DOB or Password!");
+    }
+}
+</script>
+
+</body>
+</html>
